@@ -1,0 +1,64 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.1.4.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'jacoco'
+    id 'checkstyle'
+}
+
+project.ext {
+    springBootVersion = "2.1.4.RELEASE"
+}
+
+ext['junit-jupiter.version'] = '5.6.0'
+
+version '1.0.0'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.retry:spring-retry:1.2.2.RELEASE'
+    implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+    implementation 'org.springframework.boot:spring-boot-configuration-processor'
+    implementation "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
+    implementation "org.springframework.cloud:spring-cloud-starter-sleuth:${springBootVersion}"
+    implementation "org.springframework.cloud:spring-cloud-starter-openfeign:${springBootVersion}"
+    testImplementation("org.springframework.boot:spring-boot-starter-test:${springBootVersion}") {
+        exclude(module: 'junit')
+    }
+
+    implementation 'commons-io:commons-io:2.6'
+    implementation 'com.google.guava:guava:27.0.1-jre'
+    implementation 'org.apache.commons:commons-lang3:3.8.1'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.7'
+    implementation('org.apache.httpcomponents:httpclient:4.5.6') {
+        exclude(module: 'commons-logging')
+    }
+
+    testCompileOnly "org.junit.jupiter:junit-jupiter-api"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
+    testImplementation "org.junit.jupiter:junit-jupiter-params"
+
+    testImplementation 'com.github.tomakehurst:wiremock:2.21.0'
+    testImplementation 'io.florianlopes:spring-mvc-test-utils:2.2.1'
+}
+
+jacoco {
+    toolVersion = '0.8.3'
+}
+
+checkstyle {
+    toolVersion '7.6.1'
+    configFile = rootProject.file('config/checkstyle/checkstyle.xml')
+    configProperties = [
+            'checkstyle.cache.file': "${buildDir}/checkstyle.cache",
+    ]
+    ignoreFailures = false
+    showViolations = true
+
+    checkstyleMain.source = 'src/main/java'
+}
