@@ -1,0 +1,28 @@
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: ${SPRING_ACTIVE_PROFILE:local}
+
+logging:
+  level:
+    org.springframework: INFO
+    com.example: DEBUG
+    feign: DEBUG
+    io:
+      netty:
+        util:
+          internal: INFO
+    org:
+      eclipse:
+        jetty: INFO
+  pattern:
+    console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m %X{Request-Id} %n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}}"
+
+feign:
+  logging:
+    level: FULL
+
+json-placeholder:
+  url: ${JSON_PLACEHOLDER_API_BASE_URL}
